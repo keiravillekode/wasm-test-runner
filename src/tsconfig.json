@@ -2,7 +2,9 @@
   "composite": true,
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "module": "ES2020",
+    "moduleResolution": "node"
   },
   "include": ["./"],
   "exclude": ["./fixtures"]

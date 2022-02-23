@@ -6,9 +6,9 @@ production_node_modules/*
 test/fixtures/*
 tmp/*
 
-/babel.config.js
-/jest.config.js
-/jest.runner.config.js
+/babel.config.*
+/jest.config.*
+/jest.runner.config.*
 
 /.eslintrc
 /.eslintrc.*

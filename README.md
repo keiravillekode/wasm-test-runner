@@ -1,8 +1,8 @@
-# Exercism JavaScript Test Runner
+# Exercism WebAssembly Test Runner
 
-[![javascript-test-runner / deploy](https://github.com/exercism/javascript-test-runner/actions/workflows/deploys.yml/badge.svg)](https://github.com/exercism/javascript-test-runner/actions/workflows/deploys.yml) [![javascript-test-runner / main](https://github.com/exercism/javascript-test-runner/actions/workflows/ci.js.yml/badge.svg)](https://github.com/exercism/javascript-test-runner/actions/workflows/ci.js.yml)
+[![wasm-test-runner / deploy](https://github.com/exercism/wasm-test-runner/actions/workflows/deploys.yml/badge.svg)](https://github.com/exercism/wasm-test-runner/actions/workflows/deploys.yml) [![wasm-test-runner / main](https://github.com/exercism/wasm-test-runner/actions/workflows/ci.js.yml/badge.svg)](https://github.com/exercism/wasm-test-runner/actions/workflows/ci.js.yml)
 
-The Docker image for automatically run tests on JavaScript solutions submitted to [exercism][web-exercism].
+The Docker image for automatically run tests on WebAssembly solutions submitted to [exercism][web-exercism].
 
 > At this moment, the input path _must_ be relative to the `package.json` of this repository.
 > `jest` doesn't like running outside of its tree.
@@ -13,20 +13,20 @@ The Docker image for automatically run tests on JavaScript solutions submitted t
 Clone this repository and then run:
 
 ```shell
-yarn install
+pnpm install
 ```
 
 You'll need at least Node LTS for this to work.
 
 ```shell
-yarn build
+pnpm build
 ```
 
 ## Usage
 
-If you're developing this, you can run this via `yarn` or the provided shell script.
+If you're developing this, you can run this via `pnpm` or the provided shell script.
 
-- `.sh` enabled systems (UNIX, WSL): `yarn execute:dev`
+- `.sh` enabled systems (UNIX, WSL): `pnpm execute:dev`
 - `.bat` fallback (cmd.exe, Git Bash for Windows): _unsupported_
 
 You'll want these `:dev` variants because it will _build_ the required code (it will transpile from TypeScript to JavaScript, which is necessary to run this in Node environments, unlike Deno environments).
@@ -34,7 +34,7 @@ When on Windows, if you're using Git Bash for Windows or a similar terminal, the
 The `.bat` scripts will work in the same terminal.
 In this case it might be much easier to run `bin/run.sh` directly, so a new shell won't open.
 
-You can also manually build using `yarn` or `yarn build`, and then run the script directly: `./bin/run.sh arg1 arg2 arg3`.
+You can also manually build using `pnpm` or `pnpm build`, and then run the script directly: `./bin/run.sh arg1 arg2 arg3`.
 
 ## Running the Solution's Tests
 
@@ -67,7 +67,7 @@ Instead of passing in an `<exercises-slug>` and `<path-to-solution-folder>`, you
 
 You can pass the following type of URLs:
 
-- Published solutions: `/tracks/javascript/exercises/<slug>/<id>`
+- Published solutions: `/tracks/wasm/exercises/<slug>/<id>`
 - Mentor solutions: `/mentor/solutions/<id>`
 - Your solutions: `/my/solutions/<id>`
 - Private solutions: `/solutions/<id>`
@@ -102,14 +102,14 @@ To run a solution's test in the Docker container, do the following:
 
 ## Maintaining
 
-The `package.json` needs to be in-sync with the [`javascript` track `package.json`][git-javascript].
+The `package.json` needs to be in-sync with the [`wasm` track `package.json`][git-wasm].
 
 ### Testing
 
 Running the tests of the test-runner itself can be achieved by using the `test` script from `package.json`.
-The tests delegate to the _build output_, which is why `yarn test` first calls `yarn build` before running `jest`.
+The tests delegate to the _build output_, which is why `pnpm test` first calls `pnpm build` before running `jest`.
 **The tests take over a minute to run on a decent machine**.
 
 [web-exercism]: https://exercism.io
 [git-automated-tests]: https://github.com/exercism/automated-tests
-[git-javascript]: https://github.com/exercism/javascript
+[git-wasm]: https://github.com/exercism/wasm

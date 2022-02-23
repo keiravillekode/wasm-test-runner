@@ -4,13 +4,9 @@ let wasmModule;
 let currentInstance;
 
 beforeAll(async () => {
-  try {
-    const watPath = new URL("./two-fer.wat", import.meta.url);
-    const { buffer } = await compileWat(watPath);
-    wasmModule = await WebAssembly.compile(buffer);
-  } catch (err) {
-    console.log(`Error compiling *.wat: ${err}`);
-  }
+  const watPath = new URL("./two-fer.wat", import.meta.url);
+  const { buffer } = await compileWat(watPath);
+  wasmModule = await WebAssembly.compile(buffer);
 });
 
 function twoFer(input = "") {
@@ -24,8 +20,6 @@ function twoFer(input = "") {
     );
   }
 
-  expect(currentInstance).toBeTruthy();
-  expect(currentInstance.exports.mem).toBeTruthy();
   currentInstance.set_mem_as_utf8(inputOffset, inputLengthEncoded, input);
 
   // Pass offset and length to WebAssembly function
@@ -40,3 +34,28 @@ function twoFer(input = "") {
 
 describe("twoFer()", () => {
   beforeEach(async () => {
+    currentInstance = null;
+    if (!wasmModule) {
+      return Promise.reject();
+    }
+    try {
+      currentInstance = await new WasmRunner(wasmModule);
+      return Promise.resolve();
+    } catch (err) {
+      console.log(`Error instantiating WebAssembly module: ${err}`);
+      return Promise.reject();
+    }
+  });
+
+  test("no name given", () => {
+    expect(twoFer()).toEqual("One for you, one for me.");
+  });
+
+  test("a name given", () => {
+    expect(twoFer("Alice")).toEqual("One for Alice, one for me.");
+  });
+
+  test("another name given", () => {
+    expect(twoFer("Bob")).toEqual("One for Bob, one for me.");
+  });
+});

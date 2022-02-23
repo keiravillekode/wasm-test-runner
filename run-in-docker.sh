@@ -23,7 +23,7 @@ if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
 fi
 
 # build docker image
-docker build -t javascript-test-runner .
+docker build -t wasm-test-runner .
 
 # run image passing the arguments
 docker run \
@@ -32,4 +32,4 @@ docker run \
     --mount type=bind,src=$PWD/$2,dst=/solution/ \
     --mount type=bind,src=$PWD/$3,dst=/output/ \
     --mount type=tmpfs,dst=/tmp \
-    javascript-test-runner $1 /solution/ /output/
+    wasm-test-runner $1 /solution/ /output/

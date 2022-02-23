@@ -7,8 +7,8 @@ import type {
   TestResult,
 } from '@jest/test-result'
 import type { Config } from '@jest/types'
-import fs from 'fs'
-import path from 'path'
+import fs from 'node:fs'
+import path from 'node:path'
 
 interface OutputInterface {
   status: 'fail' | 'pass' | 'error'

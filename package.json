@@ -1,32 +1,33 @@
 {
-  "name": "@exercism/javascript-test-runner",
-  "description": "Automated Test runner for exercism solutions in Javascript.",
+  "name": "@exercism/wasm-test-runner",
+  "description": "Automated Test runner for exercism solutions in WebAssembly.",
   "author": "Derk-Jan Karrenbeld <derk-jan+github@karrenbeld.info>",
   "version": "3.1.1",
   "license": "AGPL-3.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/exercism/javascript-test-runner"
+    "url": "https://github.com/exercism/wasm-test-runner"
   },
+  "type": "module",
   "directories": {
     "lib": "./dist",
     "doc": "./docs",
     "test": "./test"
   },
   "bin": {
-    "javascript-test-runner": "bin/run.sh"
+    "wasm-test-runner": "bin/run.sh"
   },
   "scripts": {
     "execute": "./bin/run.sh",
-    "execute:dev": "yarn build && yarn execute",
+    "execute:dev": "pnpm build && pnpm execute",
     "prebuild": "rimraf ./dist",
-    "build": "yarn tsc --project ./src/tsconfig.json --outDir ./dist",
-    "watch": "yarn build -w",
-    "prepare": "yarn build",
-    "prepublishOnly": "yarn test:bare && yarn lint",
-    "lint": "yarn eslint src --ext ts,js,tsx,jsx,mjs -c .eslintrc.js && yarn eslint test --ext ts,js,tsx,jsx,mjs -c test/.eslintrc.js",
-    "test": "yarn build && yarn test:bare",
-    "test:bare": "jest --roots test --testPathIgnorePatterns=\"fixtures/\""
+    "build": "pnpm tsc --project ./src/tsconfig.json --outDir ./dist",
+    "watch": "pnpm build -w",
+    "prepare": "pnpm build",
+    "prepublishOnly": "pnpm test:bare && pnpm lint",
+    "lint": "pnpm eslint src --ext ts,js,tsx,jsx,mjs -c .eslintrc.cjs && pnpm eslint test --ext ts,js,tsx,jsx,mjs -c test/.eslintrc.cjs",
+    "test": "pnpm build && node --experimental-vm-modules node_modules/jest/bin/jest.js ./*",
+    "test:bare": "node --experimental-vm-modules node_modules/jest/bin/jest.js --roots test --testPathIgnorePatterns=\"fixtures/\""
   },
   "dependencies": {
     "@babel/core": "^7.17.2",
@@ -35,6 +36,11 @@
     "@babel/preset-typescript": "^7.16.7",
     "@exercism/babel-preset-javascript": "^0.1.2",
     "@exercism/static-analysis": "^0.12.0",
+    "@exercism/wasm-lib": "^0.1.0",
+    "@jest/console": "^27.5.1",
+    "@jest/globals": "^27.5.1",
+    "@jest/reporters": "^27.5.1",
+    "@jest/test-result": "^27.5.1",
     "@typescript-eslint/typescript-estree": "^5.11.0",
     "@typescript-eslint/visitor-keys": "^5.11.0",
     "babel-jest": "^27.5.1",

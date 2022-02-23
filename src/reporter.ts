@@ -7,7 +7,7 @@ import type {
 } from '@jest/reporters'
 import type { AggregatedResult, TestResult } from '@jest/test-result'
 import type { Config } from '@jest/types'
-import { Output } from './output'
+import { Output } from './output.js'
 
 // eslint-disable-next-line import/no-default-export
 export default class StandardReporter implements Reporter {

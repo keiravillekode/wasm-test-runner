@@ -1,13 +1,12 @@
-import { describe, afterEach, test, expect } from '@jest/globals'
-import { spawnSync } from 'child_process'
-import { join, resolve } from 'path'
-import { lstat, mkdtempSync, readFileSync, unlink } from 'fs'
-import { tmpdir } from 'os'
+import { jest, describe, afterEach, test, expect } from '@jest/globals'
+import { spawnSync } from 'node:child_process'
+import { join, resolve } from 'node:path'
+import { lstat, mkdtempSync, readFileSync, unlink } from 'node:fs'
+import { tmpdir } from 'node:os'
 
-const root = resolve(__dirname, '..')
-const fixtures = resolve(__dirname, 'fixtures')
-const bin = resolve(root, 'bin')
-const run = resolve(bin, 'run.sh')
+const root = new URL('..', import.meta.url).pathname
+const fixtures = new URL('./fixtures', import.meta.url).pathname
+const run = new URL('../bin/run.sh', import.meta.url).pathname
 
 describe('javascript-test-runner', () => {
   jest.setTimeout(120 * 1000)
@@ -32,7 +31,8 @@ describe('javascript-test-runner', () => {
       )
 
       if (spawned.stderr?.length) {
-        console.warn('Did not expect anything logged to stderr.')
+        // Commented out because Node always triggers an ExperimentalWarning
+        // console.warn('Did not expect anything logged to stderr.')
         console.warn(spawned.stderr.toString())
       }
 
@@ -62,135 +62,9 @@ describe('javascript-test-runner', () => {
         })
       })
     })
-
-    test('generates a result.json at the correct location', () => {
-      const outputDir = mkdtempSync(join(tmpdir(), 'foo-'))
-
-      spawnSync(
-        'bash',
-        [run, 'clock', join(fixtures, 'clock', 'pass'), outputDir],
-        {
-          stdio: 'pipe',
-          cwd: root,
-        }
-      )
-
-      return new Promise((resolve, reject) => {
-        lstat(join(outputDir, 'results.json'), (err, _) => {
-          expect(err).toBeNull()
-
-          if (err) {
-            reject(err)
-          } else {
-            resolve('')
-          }
-        })
-      })
-    })
   })
 
-  describe('using .meta/config.json', () => {
-    describe('passing solution', () => {
-      const resultPath = join(
-        fixtures,
-        'poetry-club-door-policy',
-        'pass',
-        'results.json'
-      )
-
-      afterEach(() => {
-        unlink(resultPath, () => {
-          /** noop */
-        })
-      })
-
-      test('can run the tests', () => {
-        const spawned = spawnSync(
-          'bash',
-          [
-            run,
-            'poetry-club-door-policy',
-            join(fixtures, 'poetry-club-door-policy', 'pass'),
-          ],
-          {
-            stdio: 'pipe',
-            cwd: root,
-          }
-        )
-
-        if (spawned.stderr?.length) {
-          console.warn('Did not expect anything logged to stderr.')
-          console.warn(spawned.stderr.toString())
-        }
-
-        expect(spawned.status).toBe(0)
-      })
-
-      test('generates a result.json', () => {
-        spawnSync(
-          'bash',
-          [
-            run,
-            'poetry-club-door-policy',
-            join(fixtures, 'poetry-club-door-policy', 'pass'),
-          ],
-          {
-            stdio: 'pipe',
-            cwd: root,
-          }
-        )
-
-        return new Promise((resolve, reject) => {
-          lstat(resultPath, (err, _) => {
-            expect(err).toBeNull()
-
-            const result = JSON.parse(readFileSync(resultPath).toString()) as {
-              status: string
-            }
-            expect(result.status).toBe('pass')
-
-            if (err) {
-              reject(err)
-            } else {
-              resolve('')
-            }
-          })
-        })
-      })
-
-      test('generates a result.json at the correct location', () => {
-        const outputDir = mkdtempSync(join(tmpdir(), 'foo-'))
-
-        spawnSync(
-          'bash',
-          [
-            run,
-            'poetry-club-door-policy',
-            join(fixtures, 'poetry-club-door-policy', 'pass'),
-            outputDir,
-          ],
-          {
-            stdio: 'pipe',
-            cwd: root,
-          }
-        )
-
-        return new Promise((resolve, reject) => {
-          lstat(join(outputDir, 'results.json'), (err, _) => {
-            expect(err).toBeNull()
-
-            if (err) {
-              reject(err)
-            } else {
-              resolve('')
-            }
-          })
-        })
-      })
-    })
-  })
-
-  const failures = ['tests', 'empty']
+  const failures = ['tests', 'syntax', 'empty']
   failures.forEach((cause) => {
     describe(`failing solution (${cause})`, () => {
       const resultPath = join(
@@ -237,8 +111,19 @@ describe('javascript-test-runner', () => {
 
             const result = JSON.parse(readFileSync(resultPath).toString()) as {
               status: string
+              tests: [
+                {
+                  message: string
+                }
+              ]
             }
             expect(result.status).toBe('fail')
+
+            if (cause === 'syntax') {
+              expect(result.tests[0].message).toBe(
+                'Error: parseWat failed:\n2:19: error: unexpected token ")", expected i32, i64, f32, f64, v128 or externref.\n    (global $thing)\n                  ^'
+              )
+            }
 
             if (err) {
               reject(err)
@@ -276,7 +161,7 @@ describe('javascript-test-runner', () => {
     })
   })
 
-  const errors = ['missing', 'syntax', 'malformed_tests']
+  const errors = ['missing', 'malformed_tests']
   errors.forEach((cause) => {
     describe(`error solution (${cause})`, () => {
       const resultPath = join(

@@ -17,7 +17,7 @@
 # ./run.sh two-fer path/to/two-fer/solution/folder/ path/to/output-directory/
 
 if [[ $1 != http?(s)://* ]]; then
-  if [ -z "$2" ] ; then
+  if [ -z "$2" ]; then
     echo "Requires at least 2 arguments:"
     echo "1: exercise slug"
     echo "2: path to solution folder (with trailing slash)"
@@ -27,7 +27,7 @@ if [[ $1 != http?(s)://* ]]; then
     exit 1
   fi
 
-  if [ -z "$3" ] ; then
+  if [ -z "$3" ]; then
     OUTPUT="$2"
   else
     OUTPUT="$3"
@@ -80,7 +80,7 @@ set -euo pipefail
 ROOT="$(realpath $(dirname "$0")/..)"
 REPORTER="$ROOT/dist/reporter.js"
 SETUP="$ROOT/dist/jest/setup.js"
-CONFIG="$ROOT/jest.runner.config.js"
+CONFIG="$ROOT/jest.runner.config.mjs"
 
 if test -f "$REPORTER"; then
   echo "Using reporter : $REPORTER"
@@ -90,14 +90,14 @@ if test -f "$REPORTER"; then
 
   echo ""
 else
-  >&2 echo "Expected reporter.js to exist. Did you forget to yarn build first?"
-  >&2 echo "Using reporter : $REPORTER"
-  >&2 echo "Using test-root: $INPUT"
-  >&2 echo "Using base-root: $ROOT"
-  >&2 echo "Using setup-env: $SETUP"
-  >&2 echo ""
-  >&2 echo "The following files exist in the dist folder (build output):"
-  >&2 echo $(ls $ROOT/dist)
+  echo >&2 "Expected reporter.js to exist. Did you forget to pnpm build first?"
+  echo >&2 "Using reporter : $REPORTER"
+  echo >&2 "Using test-root: $INPUT"
+  echo >&2 "Using base-root: $ROOT"
+  echo >&2 "Using setup-env: $SETUP"
+  echo >&2 ""
+  echo >&2 "The following files exist in the dist folder (build output):"
+  echo >&2 $(ls $ROOT/dist)
   exit 1
 fi
 
@@ -127,31 +127,30 @@ else
     test_file="${SLUG}.spec.js"
     echo "No configuration given. Falling back to ${test_file}"
     "$ROOT/bin/prepare.sh" ${OUTPUT} ${test_file}
-  fi;
-fi;
+  fi
+fi
 
 # Put together the path to the test results file
 result_file="${OUTPUT}results.json"
-
 
 # Disable auto exit
 set +e
 
 # Run tests
-"$ROOT/node_modules/.bin/jest" "${OUTPUT}*" \
-                               --bail 1 \
-                               --ci \
-                               --colors \
-                               --config ${CONFIG} \
-                               --noStackTrace \
-                               --outputFile="${result_file}" \
-                               --passWithNoTests \
-                               --reporters "${REPORTER}" \
-                               --roots "${OUTPUT}" \
-                               --setupFilesAfterEnv ${SETUP} \
-                               --verbose false \
-                               --testLocationInResults
 
+"node" "--experimental-vm-modules" "$ROOT/node_modules/jest/bin/jest.js" "${OUTPUT}*" \
+  --bail 1 \
+  --ci \
+  --colors \
+  --config ${CONFIG} \
+  --noStackTrace \
+  --outputFile="${result_file}" \
+  --passWithNoTests \
+  --reporters "${REPORTER}" \
+  --roots "${OUTPUT}" \
+  --setupFilesAfterEnv ${SETUP} \
+  --verbose false \
+  --testLocationInResults
 
 # --runInBand \
 # Convert exit(1) (jest worked, but there are failing tests) to exit(0)
@@ -161,8 +160,7 @@ echo ""
 echo "Find the output at:"
 echo $result_file
 
-if [ $test_exit -eq 1 ]
-then
+if [ $test_exit -eq 1 ]; then
   exit 0
 else
   exit $test_exit

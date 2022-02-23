@@ -2,6 +2,5 @@
 
 set -euo pipefail
 
-yarn build || exit
-yarn test:bare
-
+pnpm build || exit
+pnpm test:bare

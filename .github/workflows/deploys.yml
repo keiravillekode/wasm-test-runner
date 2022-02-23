@@ -1,4 +1,4 @@
-name: javascript-test-runner / deploy
+name: wasm-test-runner / deploy
 
 on:
   push:

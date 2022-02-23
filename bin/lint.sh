@@ -2,4 +2,4 @@
 
 set -euo pipefail
 
-yarn lint
+pnpm lint
