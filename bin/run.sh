@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Synopsis:
 # Automatically tests exercism's JS track solutions against corresponding test files.
@@ -113,7 +113,7 @@ if [[ "${INPUT}" -ef "${OUTPUT}" ]]; then
   echo "${INPUT} matches ${OUTPUT}. Not copying anything."
 else
   echo "Copying ${INPUT} to ${OUTPUT}."
-  cp -r "${INPUT}" "${OUTPUT}"
+  cp -r ${INPUT}* "${OUTPUT}"
 fi
 
 if test -f $configuration_file; then
@@ -136,8 +136,10 @@ result_file="${OUTPUT}results.json"
 # Disable auto exit
 set +e
 
-# Run tests
+# Jest needs the node_modules directory somewhere in the project's tree path
+ln -s /opt/test-runner/node_modules "${OUTPUT}/node_modules"
 
+# Run tests
 "node" "--experimental-vm-modules" "$ROOT/node_modules/jest/bin/jest.js" "${OUTPUT}*" \
   --bail 1 \
   --ci \

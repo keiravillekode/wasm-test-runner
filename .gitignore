@@ -28,3 +28,4 @@ yarn.lock
 /test/fixtures/**/node_modules
 /test/fixtures/**/package-lock.json
 /test/fixtures/**/results.json
+/test/fixtures/**/*.jstmp

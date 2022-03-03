@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$EXERCISM_PRETTIER_VERSION" ]; then
   echo "Pulling prettier version from package.json"
