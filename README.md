@@ -1,6 +1,6 @@
 # Exercism WebAssembly Test Runner
 
-[![wasm-test-runner / deploy](https://github.com/exercism/wasm-test-runner/actions/workflows/deploys.yml/badge.svg)](https://github.com/exercism/wasm-test-runner/actions/workflows/deploys.yml) [![wasm-test-runner / main](https://github.com/exercism/wasm-test-runner/actions/workflows/ci.js.yml/badge.svg)](https://github.com/exercism/wasm-test-runner/actions/workflows/ci.js.yml)
+[![wasm-test-runner / deploy](https://github.com/exercism/wasm-test-runner/actions/workflows/deploy.yml/badge.svg)](https://github.com/exercism/wasm-test-runner/actions/workflows/deploy.yml) [![wasm-test-runner / main](https://github.com/exercism/wasm-test-runner/actions/workflows/ci.js.yml/badge.svg)](https://github.com/exercism/wasm-test-runner/actions/workflows/ci.js.yml)
 
 The Docker image for automatically run tests on WebAssembly solutions submitted to [exercism][web-exercism].
 
