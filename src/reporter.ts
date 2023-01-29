@@ -1,12 +1,14 @@
-import { ParsedSource } from '@exercism/static-analysis'
 import type {
-  Context,
+  Config,
   Reporter,
   ReporterOnStartOptions,
   Test,
 } from '@jest/reporters'
-import type { AggregatedResult, TestResult } from '@jest/test-result'
-import type { Config } from '@jest/types'
+import type {
+  AggregatedResult,
+  TestContext,
+  TestResult,
+} from '@jest/test-result'
 import { Output } from './output.js'
 
 // eslint-disable-next-line import/no-default-export
@@ -67,7 +69,7 @@ export default class StandardReporter implements Reporter {
    * @param aggregatedResults
    */
   public onRunComplete(
-    _contexts: Set<Context>,
+    _contexts: Set<TestContext>,
     aggregatedResults: AggregatedResult
   ): Promise<void> | void {
     this.output.finish(aggregatedResults)

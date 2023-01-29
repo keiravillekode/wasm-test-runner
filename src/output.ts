@@ -6,9 +6,9 @@ import type {
   AssertionResult,
   TestResult,
 } from '@jest/test-result'
-import type { Config } from '@jest/types'
 import fs from 'node:fs'
 import path from 'node:path'
+import { Config } from '@jest/reporters'
 
 interface OutputInterface {
   status: 'fail' | 'pass' | 'error'
