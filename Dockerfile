@@ -20,16 +20,18 @@ WORKDIR /opt/test-runner
 RUN npm install -g pnpm
 
 # install all the development modules (used for building)
-COPY package.json pnpm-lock.yaml .
-RUN pnpm install
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --ignore-scripts
 
 # Build the test runner
 COPY src/ src/
-COPY babel.config.cjs tsconfig.json .
+COPY babel.config.cjs tsconfig.json ./
 RUN pnpm build
 
 # install only the node_modules we need for production
-RUN rm -rf node_modules && pnpm install --prod && pnpm store prune
+RUN rm -rf node_modules && \
+    pnpm install --prod --ignore-scripts && \
+    pnpm store prune
 
 COPY . .
 
