@@ -28,7 +28,7 @@ solution_dir=$(realpath $2)
 output_dir=$(realpath $3)
 
 # build docker image
-docker build -t wasm-test-runner .
+docker build -t exercism/wasm-test-runner .
 
 # run image passing the arguments
 docker run \
@@ -37,4 +37,4 @@ docker run \
     --mount type=bind,src=${solution_dir},dst=/solution/ \
     --mount type=bind,src=${output_dir},dst=/output/ \
     --mount type=tmpfs,dst=/tmp \
-    wasm-test-runner $1 /solution/ /output/
+    exercism/wasm-test-runner $1 /solution/ /output/

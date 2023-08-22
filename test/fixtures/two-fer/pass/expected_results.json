@@ -1,0 +1,27 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "name": "twoFer() > no name given",
+      "status": "pass",
+      "message": "",
+      "output": null,
+      "test_code": "expect(twoFer()).toEqual(\"One for you, one for me.\");"
+    },
+    {
+      "name": "twoFer() > a name given",
+      "status": "pass",
+      "message": "",
+      "output": null,
+      "test_code": "expect(twoFer(\"Alice\")).toEqual(\"One for Alice, one for me.\");"
+    },
+    {
+      "name": "twoFer() > another name given",
+      "status": "pass",
+      "message": "",
+      "output": null,
+      "test_code": "expect(twoFer(\"Bob\")).toEqual(\"One for Bob, one for me.\");"
+    }
+  ],
+  "version": 3
+}

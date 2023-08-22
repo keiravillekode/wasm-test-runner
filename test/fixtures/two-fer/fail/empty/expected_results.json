@@ -1,0 +1,27 @@
+{
+  "status": "fail",
+  "tests": [
+    {
+      "name": "twoFer() > no name given",
+      "status": "fail",
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mundefined\u001b[39m\n    at toBeTruthy (<solution>/two-fer.spec.js:28:39)",
+      "output": null,
+      "test_code": "expect(twoFer()).toEqual(\"One for you, one for me.\");"
+    },
+    {
+      "name": "twoFer() > a name given",
+      "status": "fail",
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mundefined\u001b[39m\n    at toBeTruthy (<solution>/two-fer.spec.js:28:39)",
+      "output": null,
+      "test_code": "expect(twoFer(\"Alice\")).toEqual(\"One for Alice, one for me.\");"
+    },
+    {
+      "name": "twoFer() > another name given",
+      "status": "fail",
+      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeTruthy\u001b[2m()\u001b[22m\n\nReceived: \u001b[31mundefined\u001b[39m\n    at toBeTruthy (<solution>/two-fer.spec.js:28:39)",
+      "output": null,
+      "test_code": "expect(twoFer(\"Bob\")).toEqual(\"One for Bob, one for me.\");"
+    }
+  ],
+  "version": 3
+}

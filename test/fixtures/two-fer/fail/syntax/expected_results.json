@@ -1,0 +1,27 @@
+{
+  "status": "fail",
+  "tests": [
+    {
+      "name": "twoFer() > no name given",
+      "status": "fail",
+      "message": "Error: parseWat failed:\n2:19: error: unexpected token \")\", expected i32, i64, f32, f64, v128 or externref.\n    (global $thing)\n                  ^",
+      "output": null,
+      "test_code": "expect(twoFer()).toEqual(\"One for you, one for me.\");"
+    },
+    {
+      "name": "twoFer() > a name given",
+      "status": "fail",
+      "message": "Error: parseWat failed:\n2:19: error: unexpected token \")\", expected i32, i64, f32, f64, v128 or externref.\n    (global $thing)\n                  ^",
+      "output": null,
+      "test_code": "expect(twoFer(\"Alice\")).toEqual(\"One for Alice, one for me.\");"
+    },
+    {
+      "name": "twoFer() > another name given",
+      "status": "fail",
+      "message": "Error: parseWat failed:\n2:19: error: unexpected token \")\", expected i32, i64, f32, f64, v128 or externref.\n    (global $thing)\n                  ^",
+      "output": null,
+      "test_code": "expect(twoFer(\"Bob\")).toEqual(\"One for Bob, one for me.\");"
+    }
+  ],
+  "version": 3
+}
