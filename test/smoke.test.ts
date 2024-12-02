@@ -114,7 +114,7 @@ describe('javascript-test-runner', () => {
               tests: [
                 {
                   message: string
-                }
+                },
               ]
             }
             expect(result.status).toBe('fail')
